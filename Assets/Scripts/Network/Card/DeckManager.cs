@@ -333,7 +333,7 @@ public class DeckManager : NetworkBehaviour
         {
             if (child.name != "UserMoniter" && child.name != "Capsule" && child.name != "StatPlayer" 
                 && child.name != "PlayerCamera" && child.name != "Field" && child.name != "MoniterCanvas"
-                && child.name != "SpectatorTool" && child.name != "SeeOtherPlayerCanvas" && child.name == "TonextPlayer")
+                && child.name != "SpectatorTool" && child.name != "SeeOtherPlayerCanvas" && child.name != "TonextPlayer")
             {
                 var networkObject = child.GetComponent<NetworkObject>();
                 if (networkObject != null)

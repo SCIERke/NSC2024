@@ -34,6 +34,7 @@ public class SpectatorManager : NetworkBehaviour
 
     public void SwitchCamera(int playerIndex)
     {
+        // make player see player
         for (int i = 0; i < cameraLookPlayer.Length; i++)
         {
             cameraLookPlayer[i].gameObject.SetActive(i == playerIndex);

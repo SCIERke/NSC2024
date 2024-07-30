@@ -29,17 +29,19 @@ public class HandleClickTonextPlayerNetwork : NetworkBehaviour
             Debug.LogError("Can't find TurnSystemNetwork Component!");
             return;
         }
+
+        if (turnSystemNetwork.turnOfPlayer != (int)NetworkManager.Singleton.LocalClientId) return;
+
         if (turnSystemNetwork != null)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Input.GetKeyDown(KeyCode.F) && Physics.Raycast(ray, out RaycastHit hit))
-            {
+            {   
                 if (hit.transform == transform)
                 {
                     Debug.Log("Click!");
-                    turnSystemNetwork.turnOfPlayer += 1;
-                    turnSystemNetwork.turnOfPlayer %= 4;
-                    turnSystemNetwork.HandleOnChangeTurnPlayer(turnSystemNetwork.turnOfPlayer);
+                    
+                    turnSystemNetwork.HandleOnChangeTurnPlayerServerRpc(turnSystemNetwork.turnOfPlayer);
                 }
             }
         }

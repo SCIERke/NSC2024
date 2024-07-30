@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5657975005141214589}
   - component: {fileID: 8391281901937298971}
   - component: {fileID: 2923868392486285933}
-  - component: {fileID: 8649660122913682621}
   - component: {fileID: 3530935600346486703}
+  - component: {fileID: 8649660122913682621}
   m_Layer: 0
   m_Name: ToNextPlayer
   m_TagString: InGameItem
@@ -107,18 +107,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.16803499, y: 0.235249, z: 0.01075424}
   m_Center: {x: 0, y: 0.14786498, z: 0}
---- !u!114 &8649660122913682621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8571987976160202600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97203fae89a6a404192ea1ac030244f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3530935600346486703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4121939133
+  GlobalObjectIdHash: 2748372215
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -140,3 +128,15 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &8649660122913682621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8571987976160202600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97203fae89a6a404192ea1ac030244f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

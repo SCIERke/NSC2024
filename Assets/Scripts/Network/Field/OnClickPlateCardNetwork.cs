@@ -8,7 +8,7 @@ public class OnClickPlateCardNetwork : NetworkBehaviour
     private FieldClientManager fieldClientManager;
     private NetworkObject networkObject;
     [SerializeField] private GameObject fieldClientManagerTransform;
-
+    private TurnSystemNetwork turnSystemNetwork;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -22,6 +22,13 @@ public class OnClickPlateCardNetwork : NetworkBehaviour
 
         if (NetworkManager.Singleton.LocalClientId != networkObject.OwnerClientId)
         {
+            return;
+        }
+
+        turnSystemNetwork = FindObjectOfType<TurnSystemNetwork>();
+        if (turnSystemNetwork == null)
+        {
+            Debug.LogError("TurnSystemNetwork not found!");
             return;
         }
 
@@ -41,7 +48,14 @@ public class OnClickPlateCardNetwork : NetworkBehaviour
         {
             return;
         }
+        turnSystemNetwork = FindObjectOfType<TurnSystemNetwork>();
+        if (turnSystemNetwork == null)
+        {
+            Debug.LogError("TurnSystemNetwork not found!");
+            return;
+        }
 
+        if (turnSystemNetwork.turnOfPlayer != (int)NetworkManager.Singleton.LocalClientId) return;
 
         if (Camera.main == null) return;
 

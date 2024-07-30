@@ -4,6 +4,7 @@ using UnityEngine;
 public class RequestClientSpawnCardNetwork : NetworkBehaviour
 {
     private DeckManager deckManager;
+    private TurnSystemNetwork turnSystemNetwork;
 
     void Start()
     {
@@ -14,11 +15,27 @@ public class RequestClientSpawnCardNetwork : NetworkBehaviour
         {
             Debug.LogError("Can't find DeckManager");
         }
+
+        turnSystemNetwork = FindObjectOfType<TurnSystemNetwork>();
+        if (turnSystemNetwork == null)
+        {
+            Debug.LogError("TurnSystemNetwork not found!");
+            return;
+        }
     }
 
     private void Update()
     {
         if (!IsOwner) return;
+
+        turnSystemNetwork = FindObjectOfType<TurnSystemNetwork>();
+        if (turnSystemNetwork == null)
+        {
+            Debug.LogError("TurnSystemNetwork not found!");
+            return;
+        }
+
+        if (turnSystemNetwork.turnOfPlayer != (int)NetworkManager.Singleton.LocalClientId) return;
 
         if (Camera.main == null) return;
 

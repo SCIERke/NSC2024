@@ -96,11 +96,26 @@ public class PlayerSetSpawn : NetworkBehaviour
                 Debug.LogError($"Player object not found for ClientId: {clientId}");
             }
 
-            SpawnSpectatorToolNetworkClientRpc(networkObject.NetworkObjectId, clientId);
+            SpawnTonextPlayerNetworkClientRpc(networkObject.NetworkObjectId, clientId);
         }
         else
         {
             Debug.LogError("Can't get NetworkObject! (SpawnTonextPlayerNetworkServerRpc)");
+        }
+    }
+
+    [ClientRpc]
+    void SpawnTonextPlayerNetworkClientRpc(ulong networkObjectId, ulong clientId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out var networkObject))
+        {
+            GameObject TonextToolObject = networkObject.gameObject;
+            Debug.Log($"CanvasMoniter object spawned for ClientId: {clientId} (SpawnTonextPlayerNetworkClientRpc)");
+            // Perform any client-side updates if necessary
+        }
+        else
+        {
+            Debug.LogError($"NetworkObject not found for ID: {networkObjectId}");
         }
     }
 

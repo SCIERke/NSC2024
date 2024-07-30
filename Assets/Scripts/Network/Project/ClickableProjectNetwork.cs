@@ -6,8 +6,30 @@ using UnityEngine.EventSystems;
 
 public class ClickableProjectNetwork : NetworkBehaviour, IPointerClickHandler
 {
+    private TurnSystemNetwork turnSystemNetwork;
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        turnSystemNetwork = FindObjectOfType<TurnSystemNetwork>();
+        if (turnSystemNetwork == null)
+        {
+            Debug.LogError("TurnSystemNetwork not found!");
+            return;
+        }
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
+        turnSystemNetwork = FindObjectOfType<TurnSystemNetwork>();
+        if (turnSystemNetwork == null)
+        {
+            Debug.LogError("TurnSystemNetwork not found!");
+            return;
+        }
+
+        if (turnSystemNetwork.turnOfPlayer != (int)NetworkManager.Singleton.LocalClientId) return;
+
         Debug.Log("Clicked on: " + gameObject.name + " (Local)");
 
         // Get the project number from the game object name

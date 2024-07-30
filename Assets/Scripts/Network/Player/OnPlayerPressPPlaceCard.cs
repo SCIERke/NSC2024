@@ -8,6 +8,7 @@ public class OnPlayerPressPPlaceCard : NetworkBehaviour
     private StatPlayerNetwork statPlayerNetwork;
     private NetworkObject networkObject;
     private DeckManager deckManager;
+    private TurnSystemNetwork turnSystemNetwork;
 
     [SerializeField] private GameObject CardTemplatePrefeb;
 
@@ -24,6 +25,12 @@ public class OnPlayerPressPPlaceCard : NetworkBehaviour
 
         if (NetworkManager.Singleton.LocalClientId != networkObject.OwnerClientId)
         {
+            return;
+        }
+
+        turnSystemNetwork = FindObjectOfType<TurnSystemNetwork>();
+        if (turnSystemNetwork == null) {
+            Debug.LogError("TurnSystemNetwork not found!");
             return;
         }
 
@@ -48,6 +55,14 @@ public class OnPlayerPressPPlaceCard : NetworkBehaviour
         {
             return;
         }
+
+        turnSystemNetwork = FindObjectOfType<TurnSystemNetwork>();
+        if (turnSystemNetwork == null)
+        {
+            Debug.LogError("TurnSystemNetwork not found!");
+            return;
+        }
+        if (turnSystemNetwork.turnOfPlayer != (int)NetworkManager.Singleton.LocalClientId) return;
 
         if (Input.GetKeyDown(KeyCode.P))
         {
