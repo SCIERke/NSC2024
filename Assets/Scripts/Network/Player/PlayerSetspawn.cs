@@ -8,6 +8,8 @@ using System.Runtime.CompilerServices;
 
 public class PlayerSetSpawn : NetworkBehaviour
 {
+    //Hello world
+
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private Transform[] spawnDeckObjectsPoint;
     [SerializeField] private Transform[] spawnFieldPoints;
