@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea117424a1f1214abf9df81fc194348, type: 3}
+  m_Name: Project_B
+  m_EditorClassIdentifier: 
+  id: 2
+  projectName: Project B
+  reqIT: 0
+  reqMarketing: 0
+  reqHumanResource: 0
+  reqAccountant: 0
+  reqWorkingPoint: 3
+  upperInt: 9
+  lowerInt: 8
+  upperCondition: "\u0E40\u0E2D\u0E32 Project \u0E44\u0E1B\u0E40\u0E25\u0E22"
+  lowerCondition: "\u0E1E\u0E19\u0E31\u0E01\u0E07\u0E32\u0E19\u0E42\u0E14\u0E19\u0E44\u0E25\u0E48\u0E2D\u0E2D\u0E01
+    1 \u0E04\u0E19"
