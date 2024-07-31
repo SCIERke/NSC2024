@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using JetBrains.Annotations;
 using System.Runtime.CompilerServices;
 
+
 public class PlayerSetSpawn : NetworkBehaviour
 {
     //Hello world
@@ -24,6 +25,7 @@ public class PlayerSetSpawn : NetworkBehaviour
     [SerializeField] private GameObject TonextPlayerObject;
 
     private OnWaitingPlayer onWaitingPlayer;
+    [SerializeField] private int PlayersideBadIndex;
 
     void Start()
     {
@@ -35,6 +37,7 @@ public class PlayerSetSpawn : NetworkBehaviour
     {
         if (IsServer)
         {
+            PlayersideBadIndex = Random.Range(0, 3);
             Debug.Log("Server started (PlayerSetSpawn): Registering OnClientConnectedCallback");
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         }
@@ -62,6 +65,28 @@ public class PlayerSetSpawn : NetworkBehaviour
         SpawnSpectatorToolNetworkServerRpc(clientId);
         SpawnTonextPlayerNetworkServerRpc(clientId);
         IncreaseNumberofPlayerServerRpc();
+        SetsideofPlayerServerRpc(clientId);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SetsideofPlayerServerRpc(ulong clientId)
+    {
+        var playerObject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        if (playerObject != null )
+        {
+            StatPlayerNetwork statPlayerNetwork = playerObject.GetComponent<StatPlayerNetwork>();
+            if ((int)clientId == PlayersideBadIndex)
+            {
+                statPlayerNetwork.sideofPlayer = "Good";
+            } else
+            {
+                statPlayerNetwork.sideofPlayer = "Bad";
+            }
+            
+        } else
+        {
+            Debug.LogError("Can't find playerObject");
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]

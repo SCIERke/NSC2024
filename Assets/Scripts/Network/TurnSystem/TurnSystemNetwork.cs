@@ -257,6 +257,7 @@ public class TurnSystemNetwork : NetworkBehaviour
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TurnSystemNetwork : NetworkBehaviour
@@ -265,8 +266,11 @@ public class TurnSystemNetwork : NetworkBehaviour
     [SerializeField] private Canvas gameStartCanvas;
     public int turnOfPlayer;
     [SerializeField] public int day;
+    [SerializeField] private GameObject endGamePlayerPrefeb;
+    [SerializeField] private Transform[] endGameSpawnPoints;
 
     private SpectatorManager spectatorManager;
+    private bool spawnedEndGameCondition;
 
     private bool started;
 
@@ -284,12 +288,30 @@ public class TurnSystemNetwork : NetworkBehaviour
             Debug.LogError("Can't find SpectatorManager Component!");
             return;
         }
+        spawnedEndGameCondition = true;
         started = false;
     }
 
     void Update()
     {
         if (!IsServer) return;
+        /*
+        if (NetworkManager.Singleton.ConnectedClients.Count >= 4 && day >= 10 && spawnedEndGameCondition)
+        {
+            yield 2 second
+
+            for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
+            {
+                SpawnendGameConditionServerRpc((ulong)i);
+            }
+            spawnedEndGameCondition = false;
+        }*/
+
+        if (NetworkManager.Singleton.ConnectedClients.Count >= 4 && day >= 10 && spawnedEndGameCondition)
+        {
+            StartCoroutine(HandleEndGameCondition());
+            spawnedEndGameCondition = false;
+        }
 
         // StartGame Function
         if (NetworkManager.Singleton.ConnectedClients.Count >= 4 && !started)
@@ -301,6 +323,130 @@ public class TurnSystemNetwork : NetworkBehaviour
             StartCoroutine(StartGameSequence());
         }
     }
+
+    private IEnumerator HandleEndGameCondition()
+    {
+        yield return new WaitForSeconds(2f);
+
+        for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
+        {
+            SpawnendGameConditionServerRpc((ulong)i);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SpawnendGameConditionServerRpc(ulong clientId)
+    {
+        if (clientId >= (ulong)endGameSpawnPoints.Length)
+        {
+            Debug.LogError($"No spawn points for EndGameCondition assigned for ClientId: {clientId} (SpawnendGameConditionServerRpc)");
+            return;
+        }
+        Transform endGameSpawnPoint = endGameSpawnPoints[clientId];
+        if (endGameSpawnPoint == null)
+        {
+            Debug.LogError($"No spawn point assigned for ClientId: {clientId} (SpawnendGameConditionServerRpc)");
+            return;
+        }
+        Quaternion rot = Quaternion.Euler(0, 180, 0);
+        GameObject EndGameObjectNetwork = Instantiate(endGamePlayerPrefeb, endGameSpawnPoint.position, rot);
+        EndGameObjectNetwork.name = "EndGameCondition";
+        NetworkObject networkObject = EndGameObjectNetwork.GetComponent<NetworkObject>();
+        if (networkObject != null)
+        {
+            networkObject.SpawnWithOwnership(clientId);
+
+            // Set the parent on the server side
+            var playerObject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+            if (playerObject != null)
+            {
+                EndGameObjectNetwork.transform.SetParent(playerObject.transform, true);
+            }
+            else
+            {
+                Debug.LogError($"Player object not found for ClientId: {clientId}");
+            }
+
+            SpawnendGameConditionClientRpc(networkObject.NetworkObjectId, clientId);
+        }
+        else
+        {
+            Debug.LogError("Can't get NetworkObject! (SpawnTonextPlayerNetworkServerRpc)");
+        }
+    }
+
+    [ClientRpc]
+    void SpawnendGameConditionClientRpc(ulong networkObjectId, ulong clientId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out var networkObject))
+        {
+            GameObject EndgameObject = networkObject.gameObject;
+            Debug.Log($"EndgameObject spawned for ClientId: {clientId} (SpawnendGameConditionClientRpc)");
+            // Perform any client-side updates if necessary
+        }
+        else
+        {
+            Debug.LogError($"NetworkObject not found for ID: {networkObjectId}");
+        }
+    }
+
+    /*
+    [ServerRpc(RequireOwnership = false)]
+    void SpawnTonextPlayerNetworkServerRpc(ulong clientId)
+    {
+        if (clientId >= (ulong)spawnTonextPlayerPoints.Length)
+        {
+            Debug.LogError($"No spawn points for TonextPlayer assigned for ClientId: {clientId} (SpawnTonextPlayerNetworkServerRpc)");
+            return;
+        }
+        Transform spawnTonextPlayerPoint = spawnTonextPlayerPoints[clientId];
+        if (spawnTonextPlayerPoint == null)
+        {
+            Debug.LogError($"No spawn point assigned for ClientId: {clientId} (SpawnTonextPlayerNetworkServerRpc)");
+            return;
+        }
+        Quaternion rot = Quaternion.Euler(-90, 0, -90);
+        GameObject TonextPlayerObjectNetwork = Instantiate(TonextPlayerObject, spawnTonextPlayerPoint.position, rot);
+        TonextPlayerObjectNetwork.name = "TonextPlayer";
+        NetworkObject networkObject = TonextPlayerObjectNetwork.GetComponent<NetworkObject>();
+        if (networkObject != null)
+        {
+            networkObject.SpawnWithOwnership(clientId);
+
+            // Set the parent on the server side
+            var playerObject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+            if (playerObject != null)
+            {
+                TonextPlayerObjectNetwork.transform.SetParent(playerObject.transform, true);
+            }
+            else
+            {
+                Debug.LogError($"Player object not found for ClientId: {clientId}");
+            }
+
+            SpawnTonextPlayerNetworkClientRpc(networkObject.NetworkObjectId, clientId);
+        }
+        else
+        {
+            Debug.LogError("Can't get NetworkObject! (SpawnTonextPlayerNetworkServerRpc)");
+        }
+    }
+
+    [ClientRpc]
+    void SpawnTonextPlayerNetworkClientRpc(ulong networkObjectId, ulong clientId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out var networkObject))
+        {
+            GameObject TonextToolObject = networkObject.gameObject;
+            Debug.Log($"CanvasMoniter object spawned for ClientId: {clientId} (SpawnTonextPlayerNetworkClientRpc)");
+            // Perform any client-side updates if necessary
+        }
+        else
+        {
+            Debug.LogError($"NetworkObject not found for ID: {networkObjectId}");
+        }
+    }
+    */
 
     private IEnumerator StartGameSequence()
     {

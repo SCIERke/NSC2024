@@ -100,6 +100,7 @@
     <Compile Include="Assets\Scripts\MenScripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Project\ProjectDatabase.cs" />
     <Compile Include="Assets\Scripts\Field\Field.cs" />
+    <Compile Include="Assets\Scripts\Network\TurnSystem\EndGameVoteCondition.cs" />
     <Compile Include="Assets\Scripts\Calculator\HologramDice.cs" />
     <Compile Include="Assets\Scripts\Network\Player\PlayerSetspawn.cs" />
     <Compile Include="Assets\Scripts\Network\TurnSystem\HandleClickTonextPlayerNetwork.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\Scripts\Network\TurnSystem\OnWaitingPlayer.cs" />
     <Compile Include="Assets\Scripts\Network\Project\ProjectDatabaseNetwork.cs" />
+    <Compile Include="Assets\Scripts\Network\TurnSystem\EndGameCondition.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
@@ -161,6 +163,7 @@
     <Compile Include="Assets\Scripts\Network\Deck\OnPickCardNetwork.cs" />
     <Compile Include="Assets\Scripts\Network\Project\ClickableProjectNetwork.cs" />
     <Compile Include="Assets\Scripts\Project\PopUpTemplate.cs" />
+    <Compile Include="Assets\Scripts\Network\TurnSystem\VoteEndGameNetwork.cs" />
     <Compile Include="Assets\Scripts\Network\Player\StatPlayerNetwork.cs" />
     <Compile Include="Assets\Scripts\Environment\Day\DayScript.cs" />
     <Compile Include="Assets\Scripts\Network\Deck\RequestClientSpawnCardNetwork.cs" />

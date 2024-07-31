@@ -23,6 +23,8 @@ public class StatPlayerNetwork : NetworkBehaviour
     public int IndexPickedCard;
     */
 
+    public string sideofPlayer;
+
     // Department Counts
     public int itDepartmentCount; // Number of IT department members
     public int hrDepartmentCount; // Number of HR department members

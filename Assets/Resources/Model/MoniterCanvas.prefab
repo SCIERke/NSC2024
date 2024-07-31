@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2064852504
+  GlobalObjectIdHash: 3748494973
   InScenePlacedSourceGlobalObjectIdHash: 3748494973
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &6876040957273340552
 MonoBehaviour:
   m_ObjectHideFlags: 0
